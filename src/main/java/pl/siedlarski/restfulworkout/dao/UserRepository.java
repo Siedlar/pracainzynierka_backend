@@ -7,8 +7,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pl.siedlarski.restfulworkout.entity.User;
 import pl.siedlarski.restfulworkout.entity.UserInfo;
+import pl.siedlarski.restfulworkout.entity.Wymiar;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -36,5 +38,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("update User u set u.username = :username where u.username = :login")
     int updateUserSetLoginforUsername(@Param("login")String login, @Param("username")String username);
 
-    UserInfo findUserInfoByUsername(String username);
 }

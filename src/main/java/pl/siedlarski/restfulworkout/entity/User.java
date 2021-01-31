@@ -14,8 +14,8 @@ import java.util.Set;
 		})
 public class User {
 
-    @Id
-    @GeneratedValue
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long user_id;
     @NotBlank
     private String username;
@@ -40,7 +40,8 @@ public class User {
     @OneToOne
     @JoinColumn(name="id")
     private ImageModel imageModel;
-
+    @OneToMany(mappedBy="user")
+    private List<Wymiar> wymiar;
     public ImageModel getImageModel() {
         return imageModel;
     }
@@ -49,8 +50,17 @@ public class User {
         this.imageModel = imageModel;
     }
 
+
+    public void setWymiar(List<Wymiar> wymiar) {
+        this.wymiar = wymiar;
+    }
+
     public UserInfo getUserInfo() {
         return userInfo;
+    }
+
+    public List<Wymiar> getWymiar() {
+        return wymiar;
     }
 
     public void setUserInfo(UserInfo userInfo) {
