@@ -9,7 +9,7 @@ public class Wymiar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private Date data;
+    private LocalDate data;
     private float waga;
     private int biceps;
     private int udo;
@@ -32,11 +32,11 @@ public class Wymiar {
     }
 
 
-    public Date getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 

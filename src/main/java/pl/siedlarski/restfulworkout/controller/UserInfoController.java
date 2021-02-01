@@ -66,6 +66,10 @@ UserRepository userRepository;
     public ResponseEntity<?> getUserInfo(Principal principal){
         User user=userRepository.findByUsername(principal.getName()).get();
     UserInfo userInfo= user.getUserInfo();
+      if (userInfo ==null ){
+          userInfo=new UserInfo();
+      }
+            System.out.println(userInfo);
 
         return ResponseEntity.ok().body(userInfo);
     }
