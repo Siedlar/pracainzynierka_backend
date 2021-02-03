@@ -7,24 +7,39 @@ import java.util.List;
 public class Cwiczenie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long cwiczenie_id;
     private String nazwa_cwiczenia;
     private String url_film;
     @OneToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name="trudnosc_id")
     private Trudnosc trudnosc;
-    @OneToMany(mappedBy="user")
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            joinColumns = { @JoinColumn(name = "cwiczenie_id") },
+            inverseJoinColumns = { @JoinColumn(name = "ekwipunek_id") }
+    )
     private List<Ekwipunek> ekwipunek;
     private String url_zdjecia;
     @OneToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name="partia_id")
     private Partia partia;
-    public long getId() {
-        return id;
+    private String wskazowki;
+
+
+    public String getWskazowki() {
+        return wskazowki;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setWskazowki(String wskazowki) {
+        this.wskazowki = wskazowki;
+    }
+
+    public long getCwiczenie_id() {
+        return cwiczenie_id;
+    }
+
+    public void setCwiczenie_id(long cwiczenie_id) {
+        this.cwiczenie_id = cwiczenie_id;
     }
 
     public String getNazwa_cwiczenia() {

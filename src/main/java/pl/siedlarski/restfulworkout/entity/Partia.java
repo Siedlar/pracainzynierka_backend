@@ -6,15 +6,15 @@ import javax.persistence.*;
 public class Partia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long partia_id;
     private String partia;
 
-    public long getId() {
-        return id;
+    public long getPartia_id() {
+        return partia_id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setPartia_id(long partia_id) {
+        this.partia_id = partia_id;
     }
 
     public String getPartia() {

@@ -8,15 +8,15 @@ import javax.persistence.Id;
 public class Trudnosc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long trudnosc_id;
     private String trudnosc;
 
-    public long getId() {
-        return id;
+    public long getTrudnosc_id() {
+        return trudnosc_id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setTrudnosc_id(long trudnosc_id) {
+        this.trudnosc_id = trudnosc_id;
     }
 
     public String getTrudnosc() {
