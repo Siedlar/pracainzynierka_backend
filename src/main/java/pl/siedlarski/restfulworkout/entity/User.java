@@ -42,6 +42,19 @@ public class User {
     private ImageModel imageModel;
     @OneToMany(mappedBy="user")
     private List<Wymiar> wymiar;
+    @OneToMany(mappedBy="user")
+    private List<Rekord> rekord;
+    @OneToMany(mappedBy="user")
+    private List<HistoriaTreningu> historiaTreningu;
+
+    public List<HistoriaTreningu> getHistoriaTreningu() {
+        return historiaTreningu;
+    }
+
+    public void setHistoriaTreningu(List<HistoriaTreningu> historiaTreningu) {
+        this.historiaTreningu = historiaTreningu;
+    }
+
     public ImageModel getImageModel() {
         return imageModel;
     }

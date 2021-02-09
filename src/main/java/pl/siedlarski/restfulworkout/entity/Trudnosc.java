@@ -26,4 +26,12 @@ public class Trudnosc {
     public void setTrudnosc(String trudnosc) {
         this.trudnosc = trudnosc;
     }
+
+    @Override
+    public String toString() {
+        return "Trudnosc{" +
+                "trudnosc_id=" + trudnosc_id +
+                ", trudnosc='" + trudnosc + '\'' +
+                '}';
+    }
 }

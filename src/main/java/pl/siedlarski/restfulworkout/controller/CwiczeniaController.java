@@ -2,10 +2,7 @@ package pl.siedlarski.restfulworkout.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.siedlarski.restfulworkout.dao.CwiczeniaRepository;
 import pl.siedlarski.restfulworkout.dao.EkwipunekRepository;
 import pl.siedlarski.restfulworkout.dao.PartieRepository;
@@ -48,5 +45,11 @@ public class CwiczeniaController {
     public ResponseEntity<?> getEkwipunek(Principal principal){
         List<Ekwipunek> listaEkwipunek=ekwipunekRepository.findAll();
         return ResponseEntity.ok().body(listaEkwipunek);
+    }
+    @PostMapping("/addCwiczenia")
+    public ResponseEntity<?> addCwiczenia(Principal principal,@RequestBody Cwiczenie cwiczenia){
+        System.out.println(cwiczenia);
+        cwiczeniaRepository.save(cwiczenia);
+        return ResponseEntity.ok().body(new MessageResponse("Udalo ci sie dodac pomiar !!!"));
     }
 }

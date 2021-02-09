@@ -24,4 +24,12 @@ public class Partia {
     public void setPartia(String partia) {
         this.partia = partia;
     }
+
+    @Override
+    public String toString() {
+        return "Partia{" +
+                "partia_id=" + partia_id +
+                ", partia='" + partia + '\'' +
+                '}';
+    }
 }

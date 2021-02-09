@@ -13,7 +13,8 @@ public class Cwiczenie {
     @OneToOne
     @JoinColumn(name="trudnosc_id")
     private Trudnosc trudnosc;
-    @ManyToMany(cascade = { CascadeType.ALL })
+
+    @ManyToMany(cascade = { CascadeType.MERGE })
     @JoinTable(
             joinColumns = { @JoinColumn(name = "cwiczenie_id") },
             inverseJoinColumns = { @JoinColumn(name = "ekwipunek_id") }
@@ -25,6 +26,9 @@ public class Cwiczenie {
     private Partia partia;
     private String wskazowki;
 
+    public void setCwiczenie_id(long cwiczenie_id) {
+        this.cwiczenie_id = cwiczenie_id;
+    }
 
     public String getWskazowki() {
         return wskazowki;
@@ -38,9 +42,7 @@ public class Cwiczenie {
         return cwiczenie_id;
     }
 
-    public void setCwiczenie_id(long cwiczenie_id) {
-        this.cwiczenie_id = cwiczenie_id;
-    }
+
 
     public String getNazwa_cwiczenia() {
         return nazwa_cwiczenia;
@@ -89,5 +91,19 @@ public class Cwiczenie {
 
     public void setPartia(Partia partia) {
         this.partia = partia;
+    }
+
+    @Override
+    public String toString() {
+        return "Cwiczenie{" +
+                "cwiczenie_id=" + cwiczenie_id +
+                ", nazwa_cwiczenia='" + nazwa_cwiczenia + '\'' +
+                ", url_film='" + url_film + '\'' +
+                ", trudnosc=" + trudnosc +
+                ", ekwipunek=" + ekwipunek +
+                ", url_zdjecia='" + url_zdjecia + '\'' +
+                ", partia=" + partia +
+                ", wskazowki='" + wskazowki + '\'' +
+                '}';
     }
 }
