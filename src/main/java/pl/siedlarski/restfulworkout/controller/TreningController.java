@@ -6,14 +6,22 @@ import org.springframework.web.bind.annotation.*;
 import pl.siedlarski.restfulworkout.dao.*;
 import pl.siedlarski.restfulworkout.entity.*;
 import pl.siedlarski.restfulworkout.payload.MessageResponse;
+import pl.siedlarski.restfulworkout.payload.StworzTreningPayload;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/trening")
 public class TreningController {
+    @Autowired
+    CwiczeniaRepository cwiczeniaRepository;
+    @Autowired
+    TreningRepository treningRepository;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -33,6 +41,7 @@ public class TreningController {
         System.out.println("DODAWANIE TRENINGU");
         System.out.println(historiaTreningu);
         for(HistoriaCwiczen historiaCwiczen:historiaTreningu.getHistoriaCwiczen()){
+            historiaCwiczen.setHistoriaTreningu(historiaTreningu);
             for(JednoCwiczenie jednoCwiczenie:historiaCwiczen.getJednoCwiczenie()){
                 jednoCwiczenie.setHistoriaCwiczen(historiaCwiczen);
             }
@@ -49,8 +58,33 @@ public class TreningController {
     public ResponseEntity<?> getTreningi(Principal principal){
         User user=userRepository.findByUsername(principal.getName()).get();
         List<HistoriaTreningu> historiaTreningu=historiaTreninguRepository.findByUser(user);
-
+ if(historiaTreningu.isEmpty()){
+     return ResponseEntity.badRequest().body(new MessageResponse("Nie posiadasz jeszcze historii treningów"));
+ }
         return ResponseEntity.ok().body(historiaTreningu);
+    }
+    @PostMapping("/getWybraneCwiczenie")
+    public ResponseEntity<?> getWybraneCwiczenie(Principal principal,@RequestBody Cwiczenie cwiczenie){
+        System.out.println(cwiczenie);
+        User user = userRepository.findByUsername(principal.getName()).get();
+        List<HistoriaTreningu> historiaTreningu=historiaTreninguRepository.findByUser(user);
+        List<HistoriaTreningu> historiaTreningu2=historiaTreningu.stream().filter(x->{
+                    for(HistoriaCwiczen historiaCwiczen1:x.getHistoriaCwiczen()){
+                      return  historiaCwiczen1.getCwiczenie().getCwiczenie_id() == cwiczenie.getCwiczenie_id();
+                    }
+      return false;  }
+
+                ).collect(Collectors.toList());
+        System.out.println(historiaTreningu2);
+        List<HistoriaCwiczen> historiaCwiczen = new ArrayList<>();
+         historiaTreningu2.forEach(
+                x-> historiaCwiczen.addAll(x.getHistoriaCwiczen())
+        );
+        System.out.println(historiaCwiczen);
+if(historiaCwiczen.isEmpty()){
+    return ResponseEntity.badRequest().body(new MessageResponse("Uzytkownik nie posiada historii z tym cwiczeniem"));
+}
+        return ResponseEntity.ok().body(historiaCwiczen);
     }
     @GetMapping("/getTypyTreningu")
     public ResponseEntity<?> getTypyTreningu(Principal principal){
@@ -67,8 +101,102 @@ public class TreningController {
 
         return ResponseEntity.ok().body(new MessageResponse("Udalo sie usunac pomiar"));
     }
+@GetMapping("/getPrzykladoweTreningi")
+public ResponseEntity<?> getPrzykladoweTreningi() {
+        List<Trening> listaTreningow =treningRepository.findAll();
+
+    return ResponseEntity.ok().body(listaTreningow);
+}
+@PostMapping("/stworzTrening")
+public ResponseEntity<?> stworzTrening(@RequestBody StworzTreningPayload stworzTreningPayload) {
+    System.out.println(stworzTreningPayload);
+    Random rand = new Random();
+    List<Cwiczenie> listaCwiczen=cwiczeniaRepository.findAll();
+
+    List<Cwiczenie> stworzonyTrening = new ArrayList<>();
+    List<Cwiczenie> listaBiceps = listaCwiczen.stream().filter(x -> x.getPartia().getPartia().equals("Biceps")).collect(Collectors.toList());
+
+    List<Cwiczenie> listaTriceps = listaCwiczen.stream().filter(x -> x.getPartia().getPartia().equals("Triceps")).collect(Collectors.toList());
+    List<Cwiczenie> listaPlecy = listaCwiczen.stream().filter(x -> x.getPartia().getPartia().equals("Plecy")).collect(Collectors.toList());
+    List<Cwiczenie> listaKaptury = listaCwiczen.stream().filter(x -> x.getPartia().getPartia().equals("Kaptury")).collect(Collectors.toList());
+    List<Cwiczenie> listaPosladki = listaCwiczen.stream().filter(x -> x.getPartia().getPartia().equals("Posladki")).collect(Collectors.toList());
+    List<Cwiczenie> listaNogi = listaCwiczen.stream().filter(x -> x.getPartia().getPartia().equals("Nogi")).collect(Collectors.toList());
+    List<Cwiczenie> listaBrzuch= listaCwiczen.stream().filter(x -> x.getPartia().getPartia().equals("Brzuch")).collect(Collectors.toList());
+    List<Cwiczenie> listaPrzedramie= listaCwiczen.stream().filter(x -> x.getPartia().getPartia().equals("Przedramie")).collect(Collectors.toList());
+    List<Cwiczenie> listaBarki = listaCwiczen.stream().filter(x -> x.getPartia().getPartia().equals("Barki")).collect(Collectors.toList());
+    List<Cwiczenie> listaKlatka = listaCwiczen.stream().filter(x -> x.getPartia().getPartia().equals("Klatka")).collect(Collectors.toList());
+    System.out.println(stworzTreningPayload.getTypTreningu().getTypTreningu());
+    if (stworzTreningPayload.getTypTreningu().getTypTreningu().equals("FBW")) {
 
 
+        stworzonyTrening.add(listaBiceps.get(rand.nextInt(listaBiceps.size())));
+        stworzonyTrening.add(listaTriceps.get(rand.nextInt(listaTriceps.size())));
+        stworzonyTrening.add(listaPlecy.get(rand.nextInt(listaPlecy.size())));
+        stworzonyTrening.add(listaKaptury.get(rand.nextInt(listaKaptury.size())));
+        stworzonyTrening.add(listaPosladki.get(rand.nextInt(listaPosladki.size())));
+        stworzonyTrening.add(listaNogi.get(rand.nextInt(listaNogi.size())));
+        stworzonyTrening.add(listaBrzuch.get(rand.nextInt(listaBrzuch.size())));
+        stworzonyTrening.add(listaPrzedramie.get(rand.nextInt(listaPrzedramie.size())));
+        stworzonyTrening.add(listaBarki.get(rand.nextInt(listaBarki.size())));
+        stworzonyTrening.add(listaKlatka.get(rand.nextInt(listaKlatka.size())));
+
+    } else if (stworzTreningPayload.getTypTreningu().getTypTreningu().equals("SPLIT")) {
+        if(stworzTreningPayload.getSplit() == 1){
+
+            for(int i=0;i<4;i++){
+                int zmienna=rand.nextInt(listaKlatka.size());
+                stworzonyTrening.add(listaKlatka.get(zmienna));
+                listaKlatka.remove(zmienna);
+            }
+
+
+
+            for(int i=0;i<3;i++){
+                int zmienna=rand.nextInt(listaBiceps.size());
+                stworzonyTrening.add(listaBiceps.get(zmienna));
+                listaBiceps.remove(zmienna);
+            }
+
+
+            }else if(stworzTreningPayload.getSplit() == 2){
+            for(int i=0;i<4;i++){
+                int zmienna=rand.nextInt(listaPlecy.size());
+                stworzonyTrening.add(listaPlecy.get(zmienna));
+                listaPlecy.remove(zmienna);
+            }
+
+
+
+            for(int i=0;i<3;i++){
+                int zmienna=rand.nextInt(listaTriceps.size());
+                stworzonyTrening.add(listaTriceps.get(zmienna));
+                listaTriceps.remove(zmienna);
+            }
+
+
+
+        }else if(stworzTreningPayload.getSplit() == 3){
+
+            for(int i=0;i<4;i++){
+                int zmienna=rand.nextInt(listaNogi.size());
+                stworzonyTrening.add(listaNogi.get(zmienna));
+                listaNogi.remove(zmienna);
+            }
+
+
+
+            for(int i=0;i<3;i++){
+                int zmienna=rand.nextInt(listaBarki.size());
+                stworzonyTrening.add(listaBarki.get(zmienna));
+                listaBarki.remove(zmienna);
+            }
+
+
+        }
+   }
+
+    return ResponseEntity.ok().body(stworzonyTrening);
+}
     @GetMapping("/getRekordy")
     public ResponseEntity<?> getRekordy(Principal principal){
         User user=userRepository.findByUsername(principal.getName()).get();
@@ -80,6 +208,8 @@ public class TreningController {
     }
 
     public void updateRekordy(HistoriaTreningu historiaTreningu){
+        System.out.println("UPDATE stan");
+        ArrayList<Rekord> listaRekordow=new ArrayList();
         for(HistoriaCwiczen historiaCwiczen:historiaTreningu.getHistoriaCwiczen()){
             Rekord rekord= rekordRepository.findByUserAndCwiczenie(historiaTreningu.getUser(), historiaCwiczen.getCwiczenie());
             if(rekord == null){
@@ -94,9 +224,9 @@ public class TreningController {
                rekord.setMaks_seria(jednoCwiczenie.getSeria());
                rekord.setMaks_powtorzenia(jednoCwiczenie.getPowtorzenia());
            }
-           rekord.setHistoriaTreningu(historiaTreningu);
-           rekordRepository.save(rekord);
-            }
+                listaRekordow.add(rekord);
+
+            }else{
             if(rekord.getMaks_czas_trwania() < historiaCwiczen.getCzasTrwaniaCwiczenia()){
                 rekord.setMaks_czas_trwania(historiaCwiczen.getCzasTrwaniaCwiczenia());
             }
@@ -136,10 +266,14 @@ if(jednoCwiczenie.getCzas()!= null){
 
 
             rekord.setHistoriaTreningu(historiaTreningu);
-            rekordRepository.save(rekord);
+            listaRekordow.add(rekord);
+
 
             }
-
+}
+        if(!listaRekordow.isEmpty()){
+            rekordRepository.saveAll(listaRekordow);
+        }
 
     }
 }

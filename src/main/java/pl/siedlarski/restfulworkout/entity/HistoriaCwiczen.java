@@ -17,8 +17,9 @@ public class HistoriaCwiczen {
     @OneToMany(mappedBy="historiaCwiczen",cascade = CascadeType.ALL,fetch=FetchType.LAZY)
     private List<JednoCwiczenie> jednoCwiczenie;
     @JsonIgnore
-    @ManyToMany(mappedBy = "historiaCwiczen",cascade = CascadeType.ALL)
-    private List<HistoriaTreningu> historiaTreningu;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="historiatreningu_id")
+    private HistoriaTreningu historiaTreningu;
 
     public List<JednoCwiczenie> getJednoCwiczenie() {
         return jednoCwiczenie;
@@ -52,11 +53,9 @@ public class HistoriaCwiczen {
         this.czasTrwaniaCwiczenia = czasTrwaniaCwiczenia;
     }
 
-    public List<HistoriaTreningu> getHistoriaTreningu() {
-        return historiaTreningu;
-    }
 
-    public void setHistoriaTreningu(List<HistoriaTreningu> historiaTreningu) {
+
+    public void setHistoriaTreningu(HistoriaTreningu historiaTreningu) {
         this.historiaTreningu = historiaTreningu;
     }
 
@@ -67,7 +66,7 @@ public class HistoriaCwiczen {
                 ", cwiczenie=" + cwiczenie +
                 ", czasTrwaniaCwiczenia=" + czasTrwaniaCwiczenia +
                 ", jednoCwiczenie=" + jednoCwiczenie +
-                ", historiaTreningu=" + historiaTreningu +
+
                 '}';
     }
 }

@@ -47,9 +47,7 @@ public class User {
     @OneToMany(mappedBy="user")
     private List<HistoriaTreningu> historiaTreningu;
 
-    public List<HistoriaTreningu> getHistoriaTreningu() {
-        return historiaTreningu;
-    }
+
 
     public void setHistoriaTreningu(List<HistoriaTreningu> historiaTreningu) {
         this.historiaTreningu = historiaTreningu;

@@ -31,12 +31,9 @@ public class HistoriaTreningu {
         this.rekord = rekord;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            joinColumns = { @JoinColumn(name = "historiatreningu_id") },
-            inverseJoinColumns = { @JoinColumn(name = "historiacwiczen_id") }
-    )
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "historiaTreningu")
     private List<HistoriaCwiczen> historiaCwiczen;
+
 
     public User getUser() {
         return user;
