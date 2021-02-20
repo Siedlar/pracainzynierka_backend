@@ -11,7 +11,7 @@ public class Rekord {
     private Integer maks_czas_trwania;
     private Integer maks_seria;
     private Integer maks_powtorzenia;
-            private Integer maks_czas;
+    private Integer maks_czas;
     private Integer maks_kilometry;
 
 

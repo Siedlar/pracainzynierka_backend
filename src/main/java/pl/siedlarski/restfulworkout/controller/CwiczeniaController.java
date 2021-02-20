@@ -29,6 +29,7 @@ public class CwiczeniaController {
     @GetMapping("/getCwiczenia")
     public ResponseEntity<?> getCwiczenia(Principal principal){
         List<Cwiczenie> listaCwiczen=cwiczeniaRepository.findAll();
+
         return ResponseEntity.ok().body(listaCwiczen);
     }
     @GetMapping("/getPartie")

@@ -12,12 +12,12 @@ public class UserInfo {
     private String name;
     private String surname;
     private LocalDate dateOfBirth;
-   private int wzrost;
-   private String city;
-   private String ulica;
-   private String kraj;
-   private String phoneNumber;
-   private String notatka;
+    private int wzrost;
+    private String city;
+    private String ulica;
+    private String kraj;
+    private String phoneNumber;
+    private String notatka;
     @OneToOne(mappedBy = "userInfo")
     private User user;
     public int getWzrost() {

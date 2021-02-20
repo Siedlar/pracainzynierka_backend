@@ -68,23 +68,44 @@ public class TreningController {
         System.out.println(cwiczenie);
         User user = userRepository.findByUsername(principal.getName()).get();
         List<HistoriaTreningu> historiaTreningu=historiaTreninguRepository.findByUser(user);
-        List<HistoriaTreningu> historiaTreningu2=historiaTreningu.stream().filter(x->{
-                    for(HistoriaCwiczen historiaCwiczen1:x.getHistoriaCwiczen()){
-                      return  historiaCwiczen1.getCwiczenie().getCwiczenie_id() == cwiczenie.getCwiczenie_id();
-                    }
-      return false;  }
+        System.out.println(historiaTreningu);
+//        List<HistoriaTreningu> historiaTreningu2=historiaTreningu.stream().filter(x->{
+//                    for(HistoriaCwiczen historiaCwiczen1:x.getHistoriaCwiczen()){
+//                        System.out.println(historiaCwiczen1);
+//                      return  historiaCwiczen1.getCwiczenie().getCwiczenie_id() == cwiczenie.getCwiczenie_id();
+//                    }
+//                    return false;  }
+//
+//                ).collect(Collectors.toList());
+        List<HistoriaTreningu> historiaTreningu2= new ArrayList<>();
+        for(HistoriaTreningu historiaTreningu1:historiaTreningu){
+            for(HistoriaCwiczen historiaCwiczen:historiaTreningu1.getHistoriaCwiczen()){
+                if(historiaCwiczen.getCwiczenie().getCwiczenie_id()== cwiczenie.getCwiczenie_id()){
+                    if( historiaTreningu2.contains(historiaTreningu1)){
 
-                ).collect(Collectors.toList());
+                    }else{
+                        HistoriaTreningu historiaTreningu3 = new HistoriaTreningu();
+                        historiaTreningu3.setDataTreningu( historiaTreningu1.getDataTreningu());
+                        historiaTreningu3.setTypTreningu(historiaTreningu1.getTypTreningu());
+                        historiaTreningu3.setCzasTrwania(historiaTreningu1.getCzasTrwania());
+                        historiaTreningu3.setNotatka(historiaTreningu1.getNotatka());
+                        List<HistoriaCwiczen> historiaCwiczen2=new ArrayList<>();
+                        historiaCwiczen2.add(historiaCwiczen);
+                        historiaTreningu3.setHistoriaCwiczen(historiaCwiczen2);
+                    historiaTreningu2.add(historiaTreningu3);}
+                }
+            }
+        }
         System.out.println(historiaTreningu2);
-        List<HistoriaCwiczen> historiaCwiczen = new ArrayList<>();
-         historiaTreningu2.forEach(
-                x-> historiaCwiczen.addAll(x.getHistoriaCwiczen())
-        );
-        System.out.println(historiaCwiczen);
-if(historiaCwiczen.isEmpty()){
+//        List<HistoriaCwiczen> historiaCwiczen = new ArrayList<>();
+//         historiaTreningu2.forEach(
+//                x-> historiaCwiczen.addAll(x.getHistoriaCwiczen())
+//        );
+        System.out.println(historiaTreningu2);
+if(historiaTreningu2.isEmpty()){
     return ResponseEntity.badRequest().body(new MessageResponse("Uzytkownik nie posiada historii z tym cwiczeniem"));
 }
-        return ResponseEntity.ok().body(historiaCwiczen);
+        return ResponseEntity.ok().body(historiaTreningu2);
     }
     @GetMapping("/getTypyTreningu")
     public ResponseEntity<?> getTypyTreningu(Principal principal){

@@ -9,9 +9,9 @@ import java.util.Set;
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
-@UniqueConstraint(columnNames = "username"),
-@UniqueConstraint(columnNames = "email")
-		})
+                @UniqueConstraint(columnNames = "username"),
+                @UniqueConstraint(columnNames = "email")
+        })
 public class User {
 
     @Id
@@ -36,7 +36,7 @@ public class User {
     }
     @OneToOne
     @JoinColumn(name="userinfo_id")
-        private UserInfo userInfo;
+    private UserInfo userInfo;
     @OneToOne
     @JoinColumn(name="id")
     private ImageModel imageModel;

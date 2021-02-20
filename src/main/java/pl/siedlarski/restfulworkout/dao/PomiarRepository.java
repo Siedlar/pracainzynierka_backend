@@ -13,4 +13,5 @@ import java.util.List;
 @Transactional
 public interface PomiarRepository extends JpaRepository<Wymiar, Long> {
     List<Wymiar> findByUser(User user);
+
 }

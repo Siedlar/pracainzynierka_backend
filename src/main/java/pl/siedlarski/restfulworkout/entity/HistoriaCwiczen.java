@@ -63,10 +63,6 @@ public class HistoriaCwiczen {
     public String toString() {
         return "HistoriaCwiczen{" +
                 "historiacwiczen_id=" + historiacwiczen_id +
-                ", cwiczenie=" + cwiczenie +
-                ", czasTrwaniaCwiczenia=" + czasTrwaniaCwiczenia +
-                ", jednoCwiczenie=" + jednoCwiczenie +
-
-                '}';
+                ", cwiczenie=" + cwiczenie ;
     }
 }

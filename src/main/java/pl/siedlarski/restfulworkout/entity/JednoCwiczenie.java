@@ -23,7 +23,7 @@ public class JednoCwiczenie {
 
 
 
-@JsonIgnore
+    @JsonIgnore
     @ManyToOne( cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name="historiacwiczen_id")
     private HistoriaCwiczen historiaCwiczen;

@@ -21,4 +21,5 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
         logger.error("Unauthorized error: {}", authException.getMessage());
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Błąd: Nieudana autoryzacja użytkownika, spróbuj ponownie.");
 }
+
 }

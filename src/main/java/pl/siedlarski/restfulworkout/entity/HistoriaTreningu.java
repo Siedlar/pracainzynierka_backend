@@ -97,13 +97,7 @@ public class HistoriaTreningu {
     @Override
     public String toString() {
         return "HistoriaTreningu{" +
-                "historiatreningu_id=" + historiatreningu_id +
-                ", dataTreningu=" + dataTreningu +
-                ", czasTrwania=" + czasTrwania +
-                ", notatka='" + notatka + '\'' +
-                ", typTreningu=" + typTreningu +
-                ", user=" + user +
-                ", historiaCwiczen=" + historiaCwiczen +
-                '}';
+                "historiatreningu_id=" + historiatreningu_id
+                ;
     }
 }

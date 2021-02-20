@@ -45,4 +45,5 @@ public class PomiarController {
       pomiarRepository.delete(wymiar);
         return ResponseEntity.ok().body(new MessageResponse("Udalo sie usunac pomiar"));
     }
+
 }

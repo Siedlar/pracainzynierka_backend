@@ -81,7 +81,7 @@ UserRepository userRepository;
         userInfoRepository.save(userInfo);
         user.setUserInfo(userInfo);
         userRepository.save(user);
-        return ResponseEntity.ok().body(new MessageResponse("ALLES CLARE"));
+        return ResponseEntity.ok().body(new MessageResponse("Udało się zapisać informacje"));
     }
     @PostMapping("/uploadImage")
     public ResponseEntity<?>  uplaodImage(Principal principal,@RequestParam("imageFile") MultipartFile file) throws IOException {
@@ -106,4 +106,5 @@ UserRepository userRepository;
         ImageModel img = new ImageModel(decompressBytes(retrievedImage.getPicByte()));
         return ResponseEntity.ok().body(img);
     }
+
 }

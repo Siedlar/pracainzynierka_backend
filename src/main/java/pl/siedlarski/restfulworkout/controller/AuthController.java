@@ -153,6 +153,7 @@ public class AuthController {
         emailSender.send(simpleMailMessage);
         return ResponseEntity.ok(new MessageResponse("Link do resetowania hasła został wysłany na podany adres email. Sprawdz swoją pocztę."));
     }
+
     @Transactional
     @PostMapping("/changePassword")
     public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordPayload changePasswordPayload) throws Exception {
@@ -166,7 +167,6 @@ public class AuthController {
        user.setPassword(encoder.encode(changePasswordPayload.getPassword()));
         if (user !=null) {
             userRepository.save(user);
-            tokenRepository.deleteAllExpiredSince(new Date());
             return ResponseEntity.ok().body(new MessageResponse("Twoje hasło zostało zmienione."));
         }
         return ResponseEntity.badRequest().body(new MessageResponse("Twoje hasło zostało zmienione."));
